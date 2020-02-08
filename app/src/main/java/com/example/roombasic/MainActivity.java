@@ -27,10 +27,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // 获取WordViewModel
+        wordViewModel = new ViewModelProvider(this).get(WordViewModel.class);
+        //wordViewModel = ViewModelProviders.of(this).get(WordViewModel.class);
 
         recyclerView = findViewById(R.id.recyclerView);
-        myAdapter1 = new MyAdapter(false);
-        myAdapter2 = new MyAdapter(true);
+        myAdapter1 = new MyAdapter(false,wordViewModel);
+        myAdapter2 = new MyAdapter(true,wordViewModel);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myAdapter1);
         aSwitch = findViewById(R.id.switch1);
@@ -46,18 +49,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 获取WordViewModel
-        wordViewModel = new ViewModelProvider(this).get(WordViewModel.class);
-        //wordViewModel = ViewModelProviders.of(this).get(WordViewModel.class);
         // 使用了LiveData后就可以不使用updataView
         // LiveData可以观察
         wordViewModel.getAllWordLive().observe(this, new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
+                // 由于这里观察者的改变,会导致重复刷新页面，导致卡顿
+                int temp = myAdapter1.getItemCount();
                 myAdapter1.setAllWords(words);
                 myAdapter2.setAllWords(words);
-                myAdapter1.notifyDataSetChanged();
-                myAdapter2.notifyDataSetChanged();
+                // 比较长度
+                if (temp != words.size()){
+                    // 不一样才通知刷新
+                    myAdapter1.notifyDataSetChanged();
+                    myAdapter2.notifyDataSetChanged();
+                }
             }
         });
 

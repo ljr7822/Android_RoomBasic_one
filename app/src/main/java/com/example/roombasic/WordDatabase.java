@@ -17,20 +17,19 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  */
 
 // version:版本
-@Database(entities = {Word.class}, version = 7, exportSchema = false)
+@Database(entities = {Word.class}, version = 9, exportSchema = false)
 public abstract class WordDatabase extends RoomDatabase {
     private static WordDatabase INSTANCE;
 
     static synchronized WordDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WordDatabase.class, "word_database")
-                    //.addMigrations(MIGRATION_5_6)
+                    //.addMigrations(MIGRATION_8_9)
                     .fallbackToDestructiveMigration()
                     .build();
         }
         return INSTANCE;
     }
-
     public abstract WordDao getWordDao();
 
     // 创建数据库迁移的策略：添加列
@@ -38,6 +37,14 @@ public abstract class WordDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE word ADD COLUMN bar_data INTEGER NOT NULL DEFAULT 1");
+        }
+    };
+
+    // 创建数据库迁移的策略：添加列
+    static final Migration MIGRATION_8_9 = new Migration(7,8) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE word ADD COLUMN chineseinvisible INTEGER NOT NULL DEFAULT 0");
         }
     };
 
