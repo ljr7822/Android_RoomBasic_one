@@ -44,27 +44,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }else {
             itemView = layoutInflater.inflate(R.layout.cell_normal_2, parent, false);
         }
-        return new MyViewHolder(itemView);
-        //return null;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        // 绑定就是关联逻辑，也就是显示数据
-        final Word word = allWords.get(position);
-        holder.textViewNumber.setText(String.valueOf(position + 1));
-        holder.textViewEnglish.setText(word.getWord());
-        holder.textViewChinese.setText(word.getChineseMeaning());
-
-        holder.aSwitchChineseInvisible.setOnCheckedChangeListener(null);// 先设置为空，因为资源可以重复使用，可能会被多次调用
-        if (word.isChineseinvisible()){
-            holder.textViewChinese.setVisibility(View.GONE);// GONE不显示，也不占位置
-            holder.aSwitchChineseInvisible.setChecked(true);// 自动点红色的
-        }else {
-            holder.textViewChinese.setVisibility(View.VISIBLE);// 显示中文
-            holder.aSwitchChineseInvisible.setChecked(false);
-        }
+        /** 性能上补足**/
         // 设置点击跳转网页翻译
+        final MyViewHolder holder = new MyViewHolder(itemView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +61,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.aSwitchChineseInvisible.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 进来就获取word
+                Word word = (Word) holder.itemView.getTag(R.id.word_for_view_holder);
                 if (isChecked){
                     holder.textViewChinese.setVisibility(View.GONE);// 隐藏中文
                     word.setChineseinvisible(true);// 开关打开
@@ -90,6 +74,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 }
             }
         });
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        // 绑定就是关联逻辑，也就是显示数据
+        final Word word = allWords.get(position);
+        // 使用setTag方法来将holder给外部用
+        holder.itemView.setTag(R.id.word_for_view_holder,word);
+        holder.textViewNumber.setText(String.valueOf(position + 1));
+        holder.textViewEnglish.setText(word.getWord());
+        holder.textViewChinese.setText(word.getChineseMeaning());
+
+        //holder.aSwitchChineseInvisible.setOnCheckedChangeListener(null);// 先设置为空，因为资源可以重复使用，可能会被多次调用
+
+        if (word.isChineseinvisible()){
+            holder.textViewChinese.setVisibility(View.GONE);// GONE不显示，也不占位置
+            holder.aSwitchChineseInvisible.setChecked(true);// 自动点红色的
+        }else {
+            holder.textViewChinese.setVisibility(View.VISIBLE);// 显示中文
+            holder.aSwitchChineseInvisible.setChecked(false);
+        }
     }
 
     @Override
