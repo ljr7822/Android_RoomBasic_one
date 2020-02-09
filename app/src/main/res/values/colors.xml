@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+<!--    <color name="colorPrimary">#008577</color>-->
+<!--    <color name="colorPrimaryDark">#00574B</color>-->
+<!--    <color name="colorAccent">#D81B60</color>-->
+    <!--    基础色     -->
+    <color name="colorPrimary">#EE799F</color>
+    <color name="colorPrimaryDark">#EE799F</color>
+    <color name="colorAccent">#EE799F</color>
+<!--    <color name="colorAccent">#1572fc</color>-->
+<!--    <color name="colorAccent">#801572fc</color>-->
+
+    <color name="alpha90_green">#d027a8f0</color>
+    <color name="alpha70_green">#c0279de0</color>
+    <color name="alpha40_green">#7027a8f0</color>
+
+    <color name="light_green">#90df24</color>
+    <color name="pink">#EE799F</color>
+
+    <color name="alpha50_light_green">#8090df24</color>
+
+    <color name="alpha_text">#3c3c3c</color>
+    <color name="delete_word">#FF3030</color>
+
+    <color name="qq_white">#F8FEFE</color>
+
+    <color name="alpha50_white">#80ffffff</color>
+
+    <color name="alpha70_white">#b0ffffff</color>
+
+    <!--    <color name="colorLight">#FFFFFF</color>-->
+<!--    <color name="colorDark">#801572f</color>-->
+<!--    <color name="colorAccentAlpha">#801572fc</color>-->
+
+<!--    &lt;!&ndash;    背景色     &ndash;&gt;-->
+<!--    <color name="windowsBackground">#31373d</color>-->
+<!--    <color name="windowsBackgroundLight">#f8f8f8</color>-->
+
+<!--    &lt;!&ndash;    字体色     &ndash;&gt;-->
+<!--    <color name="textPrimary">#4e5864</color>-->
+<!--    <color name="textSecond">#8d9ca9</color>-->
+<!--    <color name="textLight">#202020</color>-->
+
+<!--    &lt;!&ndash;    提示色彩   &ndash;&gt;-->
+<!--    <color name="alertNormal">#4ce275</color>-->
+<!--    <color name="alertImportant">#f98d2c</color>-->
+
+<!--    &lt;!&ndash;    遮罩色     &ndash;&gt;-->
+<!--    <color name="maskChatHeader">#30000000</color>-->
 </resources>

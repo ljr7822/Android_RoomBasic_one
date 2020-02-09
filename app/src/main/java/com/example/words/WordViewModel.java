@@ -30,6 +30,11 @@ public class WordViewModel extends AndroidViewModel {
         return wordRepository.getAllWordsLive();
     }
 
+    // 模糊搜索：要在前后加上%
+    LiveData<List<Word>> findWordsWithPattern(String pattern){
+        return wordRepository.findWordsWithPattern(pattern);
+    }
+
     void insertWords(Word... words) {
         wordRepository.insertWords(words);
     }

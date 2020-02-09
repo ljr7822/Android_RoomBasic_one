@@ -45,6 +45,11 @@ class WordRepository {
         return allWordsLive;
     }
 
+    // 模糊搜索：要在前后加上%
+    LiveData<List<Word>> findWordsWithPattern(String pattern){
+        return wordDao.findWordsWithPattern("%"+ pattern + "%");
+    }
+
     // 生成内部类，进行异步处理插入
     static class InsertAsyncTask extends AsyncTask<Word,Void,Void> {
         private WordDao wordDao;
