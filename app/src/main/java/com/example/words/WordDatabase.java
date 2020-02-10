@@ -17,7 +17,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  */
 
 // version:版本
-@Database(entities = {Word.class}, version = 9, exportSchema = false)
+@Database(entities = {Word.class}, version = 1, exportSchema = false)
 public abstract class WordDatabase extends RoomDatabase {
     private static WordDatabase INSTANCE;
 
@@ -25,7 +25,7 @@ public abstract class WordDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WordDatabase.class, "word_database")
                     //.addMigrations(MIGRATION_8_9)
-                    .fallbackToDestructiveMigration()
+                    //.fallbackToDestructiveMigration()
                     .build();
         }
         return INSTANCE;

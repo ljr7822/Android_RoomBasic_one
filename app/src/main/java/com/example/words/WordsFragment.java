@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -32,10 +31,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.List;
 
 
@@ -143,13 +140,13 @@ public class WordsFragment extends Fragment {
                         int temp = myAdapter1.getItemCount();
                         allWords = words;
                         // 比较长度
-                        if (temp != words.size()) {
-                            // 不一样才通知刷新
-                            //myAdapter1.notifyDataSetChanged();
-                            //myAdapter2.notifyDataSetChanged();
-                            myAdapter1.submitList(words);
-                            myAdapter2.submitList(words);
-                        }
+                        //if (temp != words.size()) {
+                        // 不一样才通知刷新
+                        //myAdapter1.notifyDataSetChanged();
+                        //myAdapter2.notifyDataSetChanged();
+                        myAdapter1.submitList(words);
+                        myAdapter2.submitList(words);
+                        //}
                     }
                 });
                 return false;
@@ -202,7 +199,7 @@ public class WordsFragment extends Fragment {
         }
         // recyclerView.setAdapter(myAdapter1);
         filteredWords = wordViewModel.getAllWordLive();
-        // 配置wordViewModel观察
+        // 配置wordViewModel观察getViewLifecycleOwner()
         filteredWords.observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
@@ -226,18 +223,18 @@ public class WordsFragment extends Fragment {
         });
 
         // 左右滑动
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START | ItemTouchHelper.END) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.START | ItemTouchHelper.END) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//                Word wordFrom = allWords.get(viewHolder.getAdapterPosition());
-//                Word wordTo = allWords.get(target.getAdapterPosition());
-//                // 交换id
-//                int idTemp = wordFrom.getId();
-//                wordFrom.setId(wordTo.getId());
-//                wordTo.setId(idTemp);
-//                wordViewModel.updataWords(wordFrom, wordTo);
-//                myAdapter1.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-//                myAdapter2.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                Word wordFrom = allWords.get(viewHolder.getAdapterPosition());
+                Word wordTo = allWords.get(target.getAdapterPosition());
+                // 交换id
+                int idTemp = wordFrom.getId();
+                wordFrom.setId(wordTo.getId());
+                wordTo.setId(idTemp);
+                wordViewModel.updataWords(wordFrom, wordTo);
+                myAdapter1.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                myAdapter2.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return false;
             }
 
@@ -261,6 +258,7 @@ public class WordsFragment extends Fragment {
             // 绘出删除的背景
             Drawable icon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_delete_forever_black_24dp);
             Drawable background = new ColorDrawable(Color.GRAY);
+
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
@@ -289,9 +287,9 @@ public class WordsFragment extends Fragment {
                     iconRigth = itemView.getRight() - iconMargin;
                     iconLeft = iconRigth - icon.getIntrinsicWidth();
                     icon.setBounds(iconLeft, iconTop, iconRigth, iconBottom);
-                }else {
-                    background.setBounds(0,0,0,0);
-                    icon.setBounds(0,0,0,0);
+                } else {
+                    background.setBounds(0, 0, 0, 0);
+                    icon.setBounds(0, 0, 0, 0);
                 }
                 background.draw(c);
                 icon.draw(c);
@@ -306,7 +304,6 @@ public class WordsFragment extends Fragment {
                 // 实现页面跳转
                 NavController navController = Navigation.findNavController(v);
                 navController.navigate(R.id.action_wordsFragment_to_addFragment);
-
             }
         });
     }
